@@ -92,7 +92,7 @@ def plot_comparison(y1, y2, sr, name1="File 1", name2="File 2", output="compare.
     axes[0].set_title(name1, fontsize=14)
     axes[0].set_ylabel('Частота (Hz)')
     axes[0].set_ylim(0, sr // 2)  # До Nyquist!
-    axes[0].set_yscale('symlog', linthresh=1000, linscale=0.5)
+    #axes[0].set_yscale('symlog', linthresh=1000, linscale=0.5)
     plt.colorbar(img1, ax=axes[0], label='dB')
 
     # Спека 2
@@ -100,17 +100,18 @@ def plot_comparison(y1, y2, sr, name1="File 1", name2="File 2", output="compare.
     axes[1].set_title(name2, fontsize=14)
     axes[1].set_ylabel('Частота (Hz)')
     axes[1].set_ylim(0, sr // 2)
-    axes[1].set_yscale('symlog', linthresh=1000, linscale=0.5)
+    #axes[1].set_yscale('symlog', linthresh=1000, linscale=0.5)
     plt.colorbar(img2, ax=axes[1], label='dB')
 
     # DIFF: diverging colormap
-    diff_max = 10 # max(abs(diff_db.min()), abs(diff_db.max()), 20)
-    img3 = axes[2].pcolormesh(times, freqs, diff_db, shading='auto', cmap='RdBu_r', vmin=-diff_max, vmax=diff_max)
-    axes[2].set_title(f'DIFF: {name1} − {name2} (красный = {name1} громче, синий = {name2} громче)', fontsize=14)
+    diff_max = 5 # max(abs(diff_db.min()), abs(diff_db.max()), 20)
+    diff_db = abs(diff_db)
+    img3 = axes[2].pcolormesh(times, freqs, diff_db, shading='auto', cmap='gray', vmin=0, vmax=diff_max)
+    axes[2].set_title(f'DIFF: {name1} − {name2}', fontsize=14)
     axes[2].set_ylabel('Частота (Hz)')
     axes[2].set_xlabel('Время (сек)')
     axes[2].set_ylim(0, sr // 2)
-    axes[2].set_yscale('symlog', linthresh=1000, linscale=0.5)
+    #axes[2].set_yscale('symlog', linthresh=1000, linscale=0.5)
     plt.colorbar(img3, ax=axes[2], label='ΔdB')
 
     plt.tight_layout()
